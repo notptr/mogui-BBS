@@ -4,28 +4,43 @@
 #Programmer Matthew Deig
 
 import os
+import datetime
 import dataset
-import yaml
 from blessings import Terminal
 
-def writeConfig(path):
-    pass
 
-def loadConfig(path):
-    pass
+def tablesInit(database):
+    groups = database['groups']
+    groups.insert(dict(gid=0,name="Genral"))
 
-def drawBoard(term):
-    pass
+    messages = database['messages']
+    messages.insert(dict(mid=0,gid=0,date=str(datetime.date.today()),subject="Welcome",message="Welcome to pyboard and this your first setup. That is why you are seeing this", msgStarter="pyboard"))
 
-
+    reply = database['reply']
+    reply.insert(dict(rid=0,mid=0,gid=0,date=str(datetime.date.today()),message="This is how a reply would look in the board area", rpyUser="pyboard"))
 
 
 if __name__ == "__main__":
-    #read config unless it isn't been made
-    if os.access("/etc/pyboard.conf", os.F_OK):
-        writeConfig("/etc/pyboard.conf")
-    else:
-        loadConfig("/etc/pyboard.conf")
+    term = Terminal()
     #load database unless it isn't been made
-    #make the terminal
-    
+
+    #change this if you want it in a different place or just run it as it own
+    #user
+    if os.access("bbs/messages/messages.db", os.F_OK):
+        print(term.green + "Database has been already setup no need to run this agian.")
+    else:
+        print("Making directories")
+        os.mkdir("bbs")
+        os.mkdir("bbs/messages")
+        open("bbs/messages/messages.db", "a").close()
+
+
+        print("Making database")
+        db = dataset.connect("sqlite:///bbs/messages/messages.db")
+
+        print("Making tables")
+        tablesInit(db)
+
+        os.chmod("bbs/messages/messages.db", 0o666)
+
+        print(term.green + "Database has been created and is ready to go.")
