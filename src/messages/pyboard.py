@@ -8,11 +8,25 @@ import dataset
 import yaml
 from blessings import Terminal
 
-def loadConfig(path):
-    pass
+meassageDB = "bbs/messages/messages.db"
 
-def drawBoard(term):
-    pass
+
+def run(term):
+    db = dataset.connect("sqlite:///"+meassageDB)
+    location = "None"
+    while True:
+        groups = db['groups']
+
+        print(term.blue + term.bold + "Welcome to the Message Boards"+term.normal)
+        
+        for group in groups:
+            print("[ "+term.yellow+str(group["gid"])+term.normal+" ] : "+term.white+group["name"]+term.normal)
+
+        print()
+        print()
+
+        print("[ "+term.yellow + location + term.normal +" : H-help ] :")
+        break
 
 
 
@@ -20,11 +34,10 @@ def drawBoard(term):
 if __name__ == "__main__":
     #load the terminal
     term = Terminal()
-    
-    #read config unless it isn't been made
-    if os.access("/etc/pyboard.conf", os.F_OK):
-        loadConfig("/etc/pyboard.conf")
+
+    if os.access(meassageDB, os.F_OK):
+        run(term)
     else:
-        print(term.bold + term.red + "Please run the setup tool before using this program")
+        print(term.red + "Please run the setup program")
         
     #load database unless it isn't been made
