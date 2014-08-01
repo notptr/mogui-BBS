@@ -45,7 +45,7 @@ def showMessage(db, gid, mid, term):
         print(topic['message'])
 
 def readReply(db, gid, mid, rid, term):
-    topicMsgs = db['message']
+    topicMsgs = db['messages']
 
     
     topics = topicMsgs.find(gid=gid, mid=mid)
