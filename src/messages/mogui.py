@@ -90,8 +90,8 @@ def createMessage(db, term, gid):
             break
         else:
             strMessage = strMessage + tempMessage + "\n"
-
-    messages.insert(dict(mid=mid, gid=gid, date=str(datetime.datetime.now()), subject=subject, message=strMessage, msgStarter=os.getlogin()))
+    if strMessage != "":
+        messages.insert(dict(mid=mid, gid=gid, date=str(datetime.datetime.now()), subject=subject, message=strMessage, msgStarter=os.getlogin()))
 
 
 
