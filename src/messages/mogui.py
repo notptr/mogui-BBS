@@ -94,6 +94,32 @@ def createMessage(db, term, gid):
         messages.insert(dict(mid=mid, gid=gid, date=str(datetime.datetime.now()), subject=subject, message=strMessage, msgStarter=os.getlogin()))
 
 
+def createReply(db, term, gid, mid):
+    replys = db['reply']
+    rid = 0
+    strMessage = ""
+
+    for reply in replys:
+        if rid < reply['rid']:
+            rid = reply['rid']
+
+    if rid > 0:
+        rid = rid + 1
+
+    print(term.green+"Please type out your message and to stop please leave a . on a new line")
+    print(term.green+"------------------------------------------------------------------------------------------------------------"+term.normal)
+
+    while True:
+        tempMessage = input()
+        if tempMessage == ".":
+            break
+        else:
+            strMessage = strMessage + tempMessage +"\n"
+
+    if strMessage != "":
+        replys.insert(dict(rid=rid, mid=mid, gid=gid, date=str(datetime.datetime.now()), message=strMessage, rpyUser=os.getlogin()))
+
+
 
 def showHelp():
     pass
@@ -167,7 +193,7 @@ def run(term):
             if location == "group":
                 createMessage(db, term, gid)
             elif location == "message":
-                pass
+                createReply(db, term, gid, mid)
 
 
 
