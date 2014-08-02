@@ -14,10 +14,10 @@ def tablesInit(database):
     groups.insert(dict(gid=0,name="Genral"))
 
     messages = database['messages']
-    messages.insert(dict(mid=0,gid=0,date=str(datetime.date.today()),subject="Welcome",message="Welcome to mogui and this your first setup. That is why you are seeing this", msgStarter="mogui"))
+    messages.insert(dict(mid=0,gid=0,date=str(datetime.datetime.now()),subject="Welcome",message="Welcome to mogui and this your first setup. That is why you are seeing this", msgStarter="mogui"))
 
     reply = database['reply']
-    reply.insert(dict(rid=0,mid=0,gid=0,date=str(datetime.date.today()),message="This is how a reply would look in the board area", rpyUser="mogui"))
+    reply.insert(dict(rid=0,mid=0,gid=0,date=str(datetime.datetime.now()),message="This is how a reply would look in the board area", rpyUser="mogui"))
 
 
 if __name__ == "__main__":

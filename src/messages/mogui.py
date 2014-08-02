@@ -4,6 +4,7 @@
 #Programmer Matthew Deig
 
 import os
+import datetime
 import dataset
 import yaml
 from blessings import Terminal
@@ -39,7 +40,7 @@ def showMessage(db, gid, mid, term):
         print(term.green + "Author: " + term.normal + topic['msgStarter'])
         print(term.green + "Topic: " + term.normal + topic['subject'])
         print(term.green + "Date: " + term.normal + topic['date'])
-        print("------------------------")
+        print("------------------------------------------------------------------------------------------------------------")
         print()
         print()
         print(topic['message'])
@@ -64,11 +65,33 @@ def readReply(db, gid, mid, rid, term):
         print(term.green + "Reply Author: " + term.normal + reply['rpyUser'])
         print(term.green + "RE: " + term.normal + msgTitle)
         print(term.green + "Date: " + term.normal + reply['date'])
-        print("------------------------")
+        print("------------------------------------------------------------------------------------------------------------")
         print()
         print()
         print(reply['message'])
 
+
+
+def createMessage(db, term, gid):
+    messages = db['messages']
+    mid = 0
+    strMessage = ""
+    for message in messages:
+        if mid < message["mid"]:
+            mid = message["mid"]
+    mid = mid + 1
+    subject = input(term.green + "Topic: " + term.normal)
+    print(term.green+"Please type out your message and to stop please leave a . on a new line")
+    print(term.green+"------------------------------------------------------------------------------------------------------------"+term.normal)
+    
+    while True:
+        tempMessage = input()
+        if tempMessage == ".":
+            break
+        else:
+            strMessage = strMessage + tempMessage + "\n"
+
+    messages.insert(dict(mid=mid, gid=gid, date=str(datetime.datetime.now()), subject=subject, message=strMessage, msgStarter=os.getlogin()))
 
 
 
@@ -140,6 +163,12 @@ def run(term):
                 location = "message"
         elif select == 'N' or select == 'n' and location == "message":
             location = "readReply"
+        elif select == 'C' or select == 'c' or select == 'R' or select == 'r':
+            if location == "group":
+                createMessage(db, term, gid)
+            elif location == "message":
+                pass
+
 
 
 
