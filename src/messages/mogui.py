@@ -134,11 +134,12 @@ def run(term):
     gid = 0
     mid = 0
     rid = 0
+    
+    print(term.clear)
+    print(term.blue + term.bold + "Welcome to the Message Boards"+term.normal)
+    print()
 
     while True:
-        print(term.clear)
-        print(term.blue + term.bold + "Welcome to the Message Boards"+term.normal)
-        print()
         
         if location == "none":
             showGroups(db)
@@ -195,6 +196,8 @@ def run(term):
             elif location == "message":
                 createReply(db, term, gid, mid)
 
+        print(term.clear)
+
 
 
 
@@ -206,6 +209,7 @@ if __name__ == "__main__":
 
     if os.access(meassageDB, os.F_OK):
         run(term)
+        print(term.clear)
     else:
         print(term.red + "Please run the setup program")
         
