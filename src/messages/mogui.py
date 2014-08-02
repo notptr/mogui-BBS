@@ -14,7 +14,6 @@ global pLocation
 
 def showGroups(db):
     groups = db['groups']
-    groups.all()
 
     for group in groups:
         print("[ "+term.yellow+str(group["gid"])+term.normal+" ] : "+term.white+group["name"]+term.normal)
@@ -30,7 +29,7 @@ def showGroup(db, gid, term):
     findResults = groupMsg.find(gid=gid)
 
     for result in findResults:
-        print("[ " + term.yellow + str(result['mid']) + term.normal + " ] | Topic: " + term.white + result['subject'] + term.normal + " | Author: " + term.white + result['msgStarter'] + term.normal)
+        print("[ " + term.yellow + str(result['mid']) + term.normal + " ] | "+term.green+"Topic: " + term.white + result['subject'] + term.normal + " | "+term.green+"Author: " + term.white + result['msgStarter'] + term.normal)
 
 def showMessage(db, gid, mid, term):
     topicMsg = db['messages']
@@ -79,7 +78,8 @@ def createMessage(db, term, gid):
     for message in messages:
         if mid < message["mid"]:
             mid = message["mid"]
-    mid = mid + 1
+    if mid > 0:
+        mid = mid + 1
     subject = input(term.green + "Topic: " + term.normal)
     print(term.green+"Please type out your message and to stop please leave a . on a new line")
     print(term.green+"------------------------------------------------------------------------------------------------------------"+term.normal)
@@ -120,6 +120,26 @@ def createReply(db, term, gid, mid):
         replys.insert(dict(rid=rid, mid=mid, gid=gid, date=str(datetime.datetime.now()), message=strMessage, rpyUser=os.getlogin()))
 
 
+def createGroup(db, term):
+    groups = db['groups']
+    
+    gid = 0
+    for group in groups:
+        if gid < group['gid']:
+            gid = gid
+    gid = gid + 1
+    newgroupname = input(term.green + "Name of the group: "+term.normal)
+    if newgroupname != "":
+        groups.insert(dict(gid=gid, name=newgroupname))
+
+def addPrivUser(db, term):
+    privuser = db['privuser']
+
+    username = input(term.green+"Please enter in the user name for the privilege user: "+term.normal)
+    
+    if username != "":
+        privuser.insert(dict(privuser=username))
+
 
 def showHelp():
     pass
@@ -130,7 +150,6 @@ def run(term):
     specialUsers = []
     db = dataset.connect("sqlite:///"+meassageDB)
     privusers = db['privuser']
-    privusers.all()
 
     for privuser in privusers:
         specialUsers.append(privuser['privuser'])
@@ -203,15 +222,13 @@ def run(term):
             elif location == "message":
                 createReply(db, term, gid, mid)
         if os.getlogin() in specialUsers:
-            if select == 'cg' or select = 'CG':
-                #create a group
-                pass
+            if select == 'cg' or select == 'CG' and location == "none":
+                createGroup(db, term)
             elif select == 'd' or select == 'D':
                 #deletes a topic or group
                 pass
-            elif select == 'ap' or select == 'ap':
-                #adds a privledge user to the database
-                pass
+            elif select == 'ap' or select == 'ap' and location == "none":
+                addPrivUser(db, term)
 
         print(term.clear)
 
