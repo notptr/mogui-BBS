@@ -19,6 +19,24 @@ def tablesInit(database):
     reply = database['reply']
     reply.insert(dict(rid=0,mid=0,gid=0,date=str(datetime.datetime.now()),message="This is how a reply would look in the board area", rpyUser="mogui"))
 
+    privUser = database['privuser']
+    print("Adding privilege Users to the database")
+    
+    while True:
+        username = input("What user do you want to use (Leave blank to use this user "+os.getlogin()+" or type a *inx user name instead)")
+
+        if username == "":
+            username = os.getlogin()
+
+        print("Adding user to database")
+        privUser.insert(dict(privuser=username))
+
+        answer = input("Do you want to add another user to the database [Y/N] ")
+
+        if answer != "Y" or answer != "y":
+            break
+
+
 
 if __name__ == "__main__":
     term = Terminal()

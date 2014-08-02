@@ -127,7 +127,14 @@ def showHelp():
 
 
 def run(term):
+    specialUsers = []
     db = dataset.connect("sqlite:///"+meassageDB)
+    privusers = db['privuser']
+    privusers.all()
+
+    for privuser in privusers:
+        specialUsers.append(privuser['privuser'])
+
 
     location = "none"
     pLocation = "None"
@@ -195,6 +202,16 @@ def run(term):
                 createMessage(db, term, gid)
             elif location == "message":
                 createReply(db, term, gid, mid)
+        if os.getlogin() in specialUsers:
+            if select == 'cg' or select = 'CG':
+                #create a group
+                pass
+            elif select == 'd' or select == 'D':
+                #deletes a topic or group
+                pass
+            elif select == 'ap' or select == 'ap':
+                #adds a privledge user to the database
+                pass
 
         print(term.clear)
 
