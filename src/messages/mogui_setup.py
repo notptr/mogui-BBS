@@ -11,7 +11,7 @@ from blessings import Terminal
 
 def tablesInit(database):
     groups = database['groups']
-    groups.insert(dict(gid=0,name="Genral"))
+    groups.insert(dict(gid=0,name="General"))
 
     messages = database['messages']
     messages.insert(dict(mid=0,gid=0,date=str(datetime.datetime.now()),subject="Welcome",message="Welcome to mogui and this your first setup. That is why you are seeing this", msgStarter="mogui"))
