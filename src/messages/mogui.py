@@ -151,6 +151,49 @@ def addPrivUser(db, term):
         privuser.insert(dict(privuser=username))
 
 
+def deleteMessages(db, term):
+    select = input("Do you want to delete a group or a message and all the replies? [G/M] ")
+
+    if select == 'g' or select == 'G':
+        print("To delete a group pick the id to delete. hint it is the numbers to be pick to navagte to.")
+        print(term.red+term.bold+"This will delete everything from the group"+term.normal)
+        gid = int(input("What is the group id: "))
+        print(term.red+term.bold+"DELETEING ALL THE MESSAGES AND REPLIES OUT OF THIS GROUP"+term.normal)
+        reply = db['reply']
+        reply.delete(gid=gid)
+
+        messages = db['messages']
+        messages.delete(gid=gid)
+
+        groups = db['groups']
+        groups.delete(gid=gid)
+        print(term.green+"Deletion has been completed."+term.normal)
+
+
+    elif select == 'M' or select == 'M':
+        print("To delete a message you need to give the id of the message and the group id. hint it is the number used to navgate to.")
+        print(term.red+term.bold+"THIS WILL ONLY DELETE THE MESSAGE AND REPLIES."+term.normal)
+
+        gid = int(input("Group ID: "))
+        mid = int(input("Message ID: "))
+
+        messages = db['messages']
+        messages.delete(gid=gid,mid=mid)
+
+        reply = db['reply']
+        reply.delete(gid=gid,mid=mid)
+
+        print(term.green+"Deletion has been completed"+term.normal)
+
+
+def removePrivUser(db, term):
+    print("This will remove a user out of the privilege status")
+    username = input("What is the user you want to remove: ")
+
+    user = db['privuser']
+    user.delete(privuser=username)
+
+
 def showHelp():
     pass
 
@@ -235,7 +278,7 @@ def run(term):
             if select == 'cg' or select == 'CG' and location == "none":
                 createGroup(db, term)
             elif select == 'd' or select == 'D':
-                #deletes a topic or group
+                deleteMessages(db, term)
                 pass
             elif select == 'ap' or select == 'ap' and location == "none":
                 addPrivUser(db, term)
