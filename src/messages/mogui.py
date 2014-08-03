@@ -194,9 +194,27 @@ def removePrivUser(db, term):
     user.delete(privuser=username)
 
 
-def showHelp():
-    pass
-
+def showHelp(term, privUser):
+        print("Welcome to the commands of the board")
+        print(term.red+"Q"+term.normal+" is for exiting the board program")
+        print(term.red+"G"+term.normal+" is used to goto a group and messages")
+        print(term.red+"H"+term.normal+" is here")
+        print(term.red+"B"+term.normal+" is used to navgate back a menu.")
+        print(term.red+"N"+term.normal+" is used to view the next reply in a message")
+        print(term.red+"C"+term.normal+"  or"+term.red+" R"+term.normal+"  is used to make a topic or reply to a topic in the groups or the messages")
+        print(term.red+"M"+term.normal+"  is for getting back to the main menu")
+        print()
+        
+        if privUser:
+            showPrivHelp(term)
+    
+def showPrivHelp(term):
+    print()
+    print("Welcome to the privilege commands")
+    print(term.red+"CG"+term.normal+" is to create a group at the None stage of the board")
+    print(term.red+"D"+term.normal+" is used to delete groups and messages. This is permanent")
+    print(term.red+"AP"+term.normal+" is used to make a user name a admin of the board - use the system's username")
+    print(term.red+"RP"+term.normal+" is used to remove the admin status of a users - use the system's username")
 
 
 def run(term):
@@ -223,7 +241,10 @@ def run(term):
         if location == "none":
             showGroups(db)
         elif location == "help":
-            showHelp()
+            if os.getlogin() in specialUsers:
+                showHelp(term, True)
+            else:
+                showHelp(term, False)
         elif location == "group":
             showGroup(db, gid, term)
         elif location == "message":
@@ -267,6 +288,9 @@ def run(term):
                 pLocation = "None"
             elif rid > 0:
                 location = "message"
+            elif location == "help":
+                location = "none"
+                pLocation = "None"
         elif select == 'N' or select == 'n' and location == "message":
             location = "readReply"
         elif select == 'C' or select == 'c' or select == 'R' or select == 'r':
