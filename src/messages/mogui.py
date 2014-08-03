@@ -57,7 +57,7 @@ def readReply(db, gid, mid, rid, term):
         msgStarter = topic['msgStarter']
 
     replyMsgs = db['reply']
-    replys = replyMsgs.find(mid=mid, rid=rid)
+    replys = replyMsgs.find(mid=mid, rid=rid, gid=gid)
 
     for reply in replys:
         print(term.green + "Orginal Author: " + term.normal + msgStarter)
@@ -73,13 +73,17 @@ def readReply(db, gid, mid, rid, term):
 
 def createMessage(db, term, gid):
     messages = db['messages']
-    mid = 0
+    messageCount = db.query("SELECT MAX(mid) c FROM messages WHERE gid="+str(gid)+";")
     strMessage = ""
-    for message in messages:
-        if mid < message["mid"]:
-            mid = message["mid"]
-    if mid > 0:
-        mid = mid + 1
+    mid = 0
+    
+    for msg in messageCount:
+        if msg['c'] is None:
+            mid = -1
+        else:
+            mid = int(msg['c'])
+    mid = mid + 1
+    
     subject = input(term.green + "Topic: " + term.normal)
     print(term.green+"Please type out your message and to stop please leave a . on a new line")
     print(term.green+"------------------------------------------------------------------------------------------------------------"+term.normal)
@@ -96,15 +100,17 @@ def createMessage(db, term, gid):
 
 def createReply(db, term, gid, mid):
     replys = db['reply']
+    rpyCount = db.query("SELECT MAX(rid) c FROM reply WHERE gid="+str(gid)+" AND mid="+str(mid)+";")
     rid = 0
     strMessage = ""
 
-    for reply in replys:
-        if rid < reply['rid']:
-            rid = reply['rid']
-
-    if rid > 0:
-        rid = rid + 1
+    for rpy in rpyCount:
+        if rpy['c'] is None:
+            rid = -1
+        else:
+            rid = int(rpy['c'])
+    rid = rid + 1
+    
 
     print(term.green+"Please type out your message and to stop please leave a . on a new line")
     print(term.green+"------------------------------------------------------------------------------------------------------------"+term.normal)
@@ -122,12 +128,16 @@ def createReply(db, term, gid, mid):
 
 def createGroup(db, term):
     groups = db['groups']
-    
+    groupCount = db.query("SELECT MAX(gid) c FROM groups;")
     gid = 0
-    for group in groups:
-        if gid < group['gid']:
-            gid = gid
+
+    for group in groupCount:
+        if group['c'] is None:
+            gid = -1
+        else:
+            gid = int(group['c'])
     gid = gid + 1
+    
     newgroupname = input(term.green + "Name of the group: "+term.normal)
     if newgroupname != "":
         groups.insert(dict(gid=gid, name=newgroupname))
