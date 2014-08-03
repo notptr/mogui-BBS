@@ -279,7 +279,6 @@ def run(term):
                 createGroup(db, term)
             elif select == 'd' or select == 'D':
                 deleteMessages(db, term)
-                pass
             elif select == 'ap' or select == 'AP' and location == "none":
                 addPrivUser(db, term)
             elif select == 'rp' or select == 'RP' and location == "none":
