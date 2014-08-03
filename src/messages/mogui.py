@@ -280,8 +280,10 @@ def run(term):
             elif select == 'd' or select == 'D':
                 deleteMessages(db, term)
                 pass
-            elif select == 'ap' or select == 'ap' and location == "none":
+            elif select == 'ap' or select == 'AP' and location == "none":
                 addPrivUser(db, term)
+            elif select == 'rp' or select == 'RP' and location == "none":
+                removePrivUser(db, term)
 
         print(term.clear)
 
