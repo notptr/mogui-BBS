@@ -35,8 +35,10 @@ import datetime
 import dataset
 import yaml
 from blessings import Terminal
+#FOR SQLITE ENABLE IF YOU PERFER IT
+#meassageDB = "bbs/messages/messages.db"
 
-meassageDB = "bbs/messages/messages.db"
+meassageDB = "mysql://username:password@@hostname/database"
 global pLocation
 
 def showGroups(db):
