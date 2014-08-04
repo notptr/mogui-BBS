@@ -69,9 +69,9 @@ if __name__ == "__main__":
 
     #change this if you want it in a different place or just run it as it own
     #user
-    if os.access("bbs/messages/messages.db", os.F_OK):
-        print(term.green + "Database has been already setup no need to run this agian."+term.normal)
-    else:
+    #if os.access("bbs/messages/messages.db", os.F_OK):
+    #    print(term.green + "Database has been already setup no need to run this agian."+term.normal)
+    #else:
         #THIS IS FOR SQLITE IF YOU WANT IT ENABLE IT
         #print("Making directories")
         #os.mkdir("bbs")
@@ -79,16 +79,16 @@ if __name__ == "__main__":
         #open("bbs/messages/messages.db", "a").close()
 
 
-        print("Making database")
+    print("Making database")
         #FOR SQLITE ENABLE IT IF YOU WANT IT
         #db = dataset.connect("sqlite:///bbs/messages/messages.db")
         
-        db = dataset.connect("mysql://username:password@@hostname/database")
+    db = dataset.connect("mysql://username:password@@hostname/database")
 
-        print("Making tables")
-        tablesInit(db)
+    print("Making tables")
+    tablesInit(db)
         
         #THIS IS FOR SQLITE IF YOU WANT ENABLE IT
         #os.chmod("bbs/messages/messages.db", 0o666)
 
-        print(term.green + "Database has been created and is ready to go."+term.normal)
+    print(term.green + "Database has been created and is ready to go."+term.normal)

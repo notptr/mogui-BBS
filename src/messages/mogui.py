@@ -248,7 +248,8 @@ def showPrivHelp(term):
 
 def run(term):
     specialUsers = []
-    db = dataset.connect("sqlite:///"+meassageDB)
+    #db = dataset.connect("sqlite:///"+meassageDB)
+    db = dataset.connect(meassageDB)
     privusers = db['privuser']
 
     for privuser in privusers:
@@ -348,10 +349,10 @@ if __name__ == "__main__":
     #load the terminal
     term = Terminal()
 
-    if os.access(meassageDB, os.F_OK):
-        run(term)
-        print(term.clear)
-    else:
-        print(term.red + "Please run the setup program")
+    #if os.access(meassageDB, os.F_OK):
+    run(term)
+    print(term.clear)
+    #else:
+    #    print(term.red + "Please run the setup program")
         
     #load database unless it isn't been made
