@@ -24,4 +24,10 @@ You will need to use python 3 and use this Libaraies
 
 Then add a new user like bbs and put mogui_setup.py in the home directoery and
 run it. This will be the setup of the board for your system. Then place mogui.py
-in shared bin directory and then allow the users to run the program.
+in shared bin directory and then allow the users to run the program. 
+
+
+NOTES
+======
+The top of this is little out of date but not much. I swith the database to
+mySQL instead of using sglite. That is only the major change to this program
