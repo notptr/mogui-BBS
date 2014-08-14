@@ -59,7 +59,7 @@ def handle_Read(sock):
         messages.append([bytes(strmsgsplit[1] + " has entered the room.", 'utf-8'), 0])
     else:
         print(strmsg)
-        strmsg = usernames[sock] + ": " + strmsg
+        strmsg = "<" + usernames[sock] + "> " + strmsg
         messages.append([bytes(strmsg, 'utf-8'), sock])
 
 if __name__ == "__main__":
