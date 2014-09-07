@@ -60,7 +60,7 @@ def showGroup(db, gid, term):
     findResults = groupMsg.find(gid=gid)
 
     for result in findResults:
-        print("[ " + term.yellow + str(result['mid']) + term.normal + " ] | "+term.green+"Topic: " + term.white + result['subject'] + term.normal + " | "+term.green+"Author: " + term.white + result['msgStarter'] + term.normal)
+        print("[ " + term.yellow + str(result['mid']) + term.normal + " ] | "+term.green+"Topic: " + term.white + emojize(result['subject']) + term.normal + " | "+term.green+"Author: " + term.white + result['msgStarter'] + term.normal)
 
 def showMessage(db, gid, mid, term):
     topicMsg = db['messages']
