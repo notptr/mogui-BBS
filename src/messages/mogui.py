@@ -35,6 +35,8 @@ import datetime
 import dataset
 import yaml
 from blessings import Terminal
+#Added in for some fun not much else for it
+from emoji import emojize
 #FOR SQLITE ENABLE IF YOU PERFER IT
 #meassageDB = "bbs/messages/messages.db"
 
@@ -66,12 +68,12 @@ def showMessage(db, gid, mid, term):
     
     for topic in topics:
         print(term.green + "Author: " + term.normal + topic['msgStarter'])
-        print(term.green + "Topic: " + term.normal + topic['subject'])
+        print(term.green + "Topic: " + term.normal + emojize(topic['subject']))
         print(term.green + "Date: " + term.normal + topic['date'])
         print("------------------------------------------------------------------------------------------------------------")
         print()
         print()
-        print(topic['message'])
+        print(emojize(topic['message']))
 
 def readReply(db, gid, mid, rid, term):
     topicMsgs = db['messages']
@@ -91,12 +93,12 @@ def readReply(db, gid, mid, rid, term):
     for reply in replys:
         print(term.green + "Orginal Author: " + term.normal + msgStarter)
         print(term.green + "Reply Author: " + term.normal + reply['rpyUser'])
-        print(term.green + "RE: " + term.normal + msgTitle)
+        print(term.green + "RE: " + term.normal + emojize(msgTitle))
         print(term.green + "Date: " + term.normal + reply['date'])
         print("------------------------------------------------------------------------------------------------------------")
         print()
         print()
-        print(reply['message'])
+        print(emojize(reply['message']))
 
 
 
